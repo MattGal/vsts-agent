@@ -45,11 +45,11 @@ namespace Microsoft.VisualStudio.Services.Agent.Listener
         {
             if (!await UpdateNeeded(updateMessage.TargetVersion, token))
             {
-                Trace.Info($"Can't find availiable update package.");
+                Trace.Info($"Can't find available update package.");
                 return false;
             }
 
-            Trace.Info($"An update is availiable.");
+            Trace.Info($"An update is available.");
 
             // Print console line that warn user not shutdown agent.
             await UpdateAgentUpdateStateAsync(StringUtil.Loc("UpdateInProgress"));
@@ -62,7 +62,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Listener
             await UpdateAgentUpdateStateAsync(StringUtil.Loc("EnsureJobFinished"));
 
             await jobDispatcher.WaitAsync(token);
-            Trace.Info($"All running job has exited.");
+            Trace.Info($"All running jobs have exited.");
 
             // delete agent backup
             DeletePreviousVersionAgentBackup(token);
@@ -85,7 +85,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Listener
             invokeScript.StartInfo.Arguments = $"\"{updateScript}\"";
 #endif
             invokeScript.Start();
-            Trace.Info($"Update script start running");
+            Trace.Info($"Update script has started running");
 
             await UpdateAgentUpdateStateAsync(StringUtil.Loc("AgentExit"));
 
@@ -94,7 +94,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Listener
 
         private async Task<bool> UpdateNeeded(string targetVersion, CancellationToken token)
         {
-            // when talk to old version tfs server, always prefer latest package.
+            // when talking to an old-version tfs server, always prefer latest package.
             // old server won't send target version as part of update message.
             if (string.IsNullOrEmpty(targetVersion))
             {
